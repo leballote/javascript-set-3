@@ -1,7 +1,7 @@
 :root {
   box-sizing: border-box;
   font-size: 1.2em;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Comfortaa', Arial, Helvetica, sans-serif;
 }
 
 *,
@@ -18,7 +18,8 @@ h1 {
   font-size: 4rem;
   text-align: right;
   padding: 0 2rem;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Comfortaa', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: medium;
   font-weight: bolder;
 }
 
@@ -32,7 +33,9 @@ h1 {
 }
 
 .note {
-  border: 2px solid black;
+  /* display: flex;
+  flex-flow: wrap row; */
+  border: 1px solid gray;
   margin: 1em;
   /* padding: 0.2em 1em; */
   border-radius: 10px;
@@ -58,11 +61,15 @@ h1 {
   padding: .6em;
   overflow: hidden;
   cursor: auto;
+  border: none;
+  /* border: solid rgb(84, 64, 80) 1px; */
 }
 
 .note-title {
   font-size: 2rem;
   font-family: Arial, Helvetica, sans-serif;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
 .note-body {
@@ -70,6 +77,17 @@ h1 {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.note-footer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-end;
+  font-size: .8rem;
+}
+
+.note-footer > p {
+  width: 20%;
+  margin: 0 0.2em;
+}
 
 #black-back {
   display: none;
@@ -79,4 +97,42 @@ h1 {
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+/* buttons */
+
+button {
+  border-radius: 8px;
+  border: solid gray 2px;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.buttons {
+  margin: 0 .8em;
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.246);
+}
+
+button.large {
+  font-size: 5rem;
+}
+
+button.medium {
+  font-size: 2rem;
+  color: gray;
+}
+
+#new-note-btn {
+  display: block;
+  width: 98%;
+  margin: auto;
+  background-color: rgb(226, 153, 210);
+}
+
+#new-note-btn:hover {
+  background-color: rgb(226, 153, 210);
+  background-color: rgb(131, 93, 123);
 }

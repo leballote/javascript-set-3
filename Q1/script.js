@@ -5,62 +5,22 @@ let notesList = [
         "id": "note-1",
         "title": "First Note!",
         "body": "This is my very first note, and it is really important.",
-        "creationDate": "this is the creation date",
-        "lastEditDate": "yesterday hehe",
+        "creationDate": "2020-01-01",
+        "lastEditDate": "2020-01-01",
     },
     {
         "id": "note-2",
         "title": "Remember",
         "body": "don't forget to feed the cat this Thursday.",
-        "creationDate": "this is the creation date",
-        "lastEditDate": "yesterday hehe",
+        "creationDate": "2021-06-01",
+        "lastEditDate": "2021-12-03",
     }, 
     {
         "id" : "note-3",
         "title": "Really, remember", 
         "body": "Seriously, don't forget it.",
-        "creationDate": "this is the creation date",
-        "lastEditDate": "yesterday hehe",
-    },
-    {
-        "id" : "note-4",
-        "title": "Another", 
-        "body": "Seriously, don't forget it.",
-        "creationDate": "now",
-        "lastEditDate": "then",
-    },
-    {
-        "id" : "note-5",
-        "title": "Yet, another note, this one is huge", 
-        "body": 
-
-`Hola
-
-Hi
-This
-Note
-Is
-Huge
-And
-I
-Think
-You
-Should
-Know
-It
-you 
-really
-really
-really
-really
-really
-really
-really
-have
-to
-scroll`,
-        "creationDate": "now",
-         "lastEditDate": "then",       
+        "creationDate": "2022-11-16",
+        "lastEditDate": "2022-12-03",
     }
 ]
 let lastId = 6;
@@ -118,6 +78,18 @@ notes.addEventListener("input", evt => {
     }
 });
 
+notes.addEventListener("keydown", function(evt) {
+    let text = evt.target.closest("textarea");
+    if (text) {
+        if (evt.key === "Tab") {
+            evt.preventDefault();
+            const start = text.selectionStart;
+            const end = text.selectionEnd;
+            text.setRangeText('\t', start, end, 'end');
+        }
+    }
+});
+
 blackBack.addEventListener("click", evt => {
     unSelectNote(); 
 });
@@ -125,12 +97,6 @@ blackBack.addEventListener("click", evt => {
 newNoteBtn.addEventListener("click", evt => {
     newNote();
 });
-
-setInterval(() => {
-    updateNotesInDom();
-}, 8000);
-
-
 
 function renderNotes() {
     const notesElements = [];
@@ -155,7 +121,6 @@ function selectNote(note) {
         return;
     }
     if (note != currentSelected) {
-        // note = note.cloneNode(true);
         note.classList.add("selected");
         note.querySelector(".note-title").readOnly = false;
         note.querySelector(".note-body").readOnly = false;
@@ -179,21 +144,23 @@ function unSelectNote(save=true) {
 }
 
 function newNote() {
+    notesList = JSON.parse(localStorage.notes);
     const note = noteTemplate.content.cloneNode(true).querySelector(".note");
     const now = new Date(); 
+    console.log(lastId);
     const noteData = {
-        id: `note-${lastId}`,
+        id: `note-${lastId++}`,
         title: "",
         body: "",
         creationDate: now.toISOString(),
         lastEditDate: now.toISOString(),
     };
+    localStorage.lastId = parseInt(lastId);
     fillNote(note, noteData);
     notesList.push(noteData);
-    notesListLocal.push(noteData);
-    lastId++; 
     notes.appendChild(note);
     selectNote(note);
+    saveNotesState();
 }
 
 function fillNote(note, noteData) {
@@ -227,13 +194,13 @@ function updateNote(note, idx=null) {
     }
 }
 
-function updateNoteTitle(note , idx=null) {
+function updateNoteTitle(note, idx=null) {
     const noteTitle = note.querySelector(".note-title");
     if (idx == null) {
         idx = notesList.findIndex(el => el.id == note.id);
     }
+    console.log(idx);
     const noteData = notesList[idx]; 
-    temp = idx;
     const changed = (noteData.title !== noteTitle.value);
     if (changed) {
         noteData.title = noteTitle.value;
@@ -269,33 +236,9 @@ function deleteNote(note, idx=null) {
 }
 
 function saveNotesState() {
+    console.log(notesList);
     localStorage.notes = JSON.stringify(notesList);
     console.log("saving state in local storage");
-}
-
-function updateNotesInDom() {
-    const missing = [];
-    const leftover = []; 
-    const changed = [];
-
-    for (let noteData of notesList) {
-
-    }
-    addMissingNotes();
-    removeLeftoverNotes();
-    updateNotesContent();
-}
-
-function addMissingNotes() {
-    
-}
-
-function removeLeftoverNotes() {
-
-}
-
-function updateNotesContent() {
-
 }
 
 function resizeTextarea(text) {

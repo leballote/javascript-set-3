@@ -6,13 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Notes</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/471c7972ad.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <main>
     <h1>Notoryx</h1>
-    <textarea name="" id="debug-ta"></textarea>
-    <div id="debug-div" contenteditable>hi</div>
-    <button id="new-note-btn">New note</button>
+    <button id="new-note-btn" class="large"><i class="fa-solid fa-plus"></i></button>
     <ul id="notes" class="notes">
     </ul>
     <div id="black-back">
@@ -21,14 +23,16 @@
 
   <template id="note-template">
     <li class="note">
-      <textarea name="note-title" class="note-title" cols="30" rows="1" role="textbox" readonly></textarea>
-      <textarea name="note-body" class="note-body" role="textbox" cols="30" rows="10"></textarea>
+      <textarea name="note-title" class="note-title" cols="30" rows="1" role="textbox" readonly placeholder="Title"></textarea>
+      <textarea name="note-body" class="note-body" role="textbox" cols="30" rows="10" placeholder="Write here..."></textarea>
+      <div class="buttons">
+        <button class="save-note medium"><i class="fa-solid fa-floppy-disk"></i></button>
+        <button class="delete-note medium"><i class="fa-solid fa-trash"></i></button>
+      </div>
       <footer class="note-footer">
-        <p class="creation">Creation date: <span class="note-creation-date"></span></p>
-        <p class="last-edit">Last time edited: <span class="note-last-edit-date"></span></p>
+        <p class="creation">Creation: <span class="note-creation-date"></span></p>
+        <p class="last-edit">Last time: <span class="note-last-edit-date"></span></p>
       </footer>
-      <button class="save-note">Save</button>
-      <button class="delete-note">Delete</button>
     </li>
   </template>
   <script src="script.js"></script>
