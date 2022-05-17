@@ -10,8 +10,8 @@
 <body>
   <main>
     <h1>Notoryx</h1>
-    <textarea name="">
-    </textarea>
+    <textarea name="" id="debug-ta"></textarea>
+    <div id="debug-div" contenteditable>hi</div>
     <button id="new-note-btn">New note</button>
     <ul id="notes" class="notes">
     </ul>
@@ -21,9 +21,14 @@
 
   <template id="note-template">
     <li class="note">
-      <h2 class="note-title"> </h2>
-      <div class="note-body"></div>
-      <footer class="note-footer"></footer>
+      <textarea name="note-title" class="note-title" cols="30" rows="1" role="textbox" readonly></textarea>
+      <textarea name="note-body" class="note-body" role="textbox" cols="30" rows="10"></textarea>
+      <footer class="note-footer">
+        <p class="creation">Creation date: <span class="note-creation-date"></span></p>
+        <p class="last-edit">Last time edited: <span class="note-last-edit-date"></span></p>
+      </footer>
+      <button class="save-note">Save</button>
+      <button class="delete-note">Delete</button>
     </li>
   </template>
   <script src="script.js"></script>

@@ -127,8 +127,8 @@ newNoteBtn.addEventListener("click", evt => {
 });
 
 setInterval(() => {
-    synchronize();
-}, 4000);
+    updateNotesInDom();
+}, 8000);
 
 
 
@@ -197,7 +197,6 @@ function newNote() {
 }
 
 function fillNote(note, noteData) {
-    if (typeof note === "string" || typeof note === "number") note = document.getElementById(note);
     const noteTitle = note.querySelector(".note-title"); 
     const noteBody = note.querySelector(".note-body");
 
@@ -212,49 +211,28 @@ function fillNote(note, noteData) {
     resizeObserverTextarea.observe(noteBody);
 }
 
-
-//from = notesList or notesListLocal
-function updateNote(note, idx=null, from="both", save=true) {
-    if (from === "notesList") {
-        notesList = JSON.parse(localStorage.notes);
-        from = notesList;
-    } else if (from === "notesListLocal") {
-        from = notesListLocal;
-    } else if (from === "both") {
-        const changed = updateNote(note, null, "notesList");
-        updateNote(note, null, "notesListLocal", false);
-        return changed; 
-    }
+function updateNote(note, idx=null) {
+    notesList = JSON.parse(localStorage.notes);
     if (idx == null) {
-        idx = from.findIndex(el => el.id == note.id);
+        idx = notesList.findIndex(el => el.id == note.id);
     }
     const now = new Date();
-    const titleChanged = updateNoteTitle(note, idx=idx, from);
-    const bodyChanged = updateNoteBody(note, idx=idx, from);
+    const titleChanged = updateNoteTitle(note, idx=idx);
+    const bodyChanged = updateNoteBody(note, idx=idx);
     if (titleChanged || bodyChanged) {
-        noteData = from[idx];
+        noteData = notesList[idx];
         noteData.lastEditDate = now.toISOString();
         note.querySelector(".note-last-edit-date").textContent = formatDate(now);
-        if (save) saveNotesState();
+        saveNotesState();
     }
 }
 
-function updateNoteTitle(note , idx=null, from="both") {
-    if (from === "notesList") {
-        notesList = JSON.parse(localStorage.notes);
-        from = notesList;
-    } else if (from === "notesListLocal") {
-        from = notesListLocal;
-    } else if (from === "both") {
-        const changed = updateNoteTitle(note, null, "notesList");
-        updateNoteTitle(note, null, "notesListLocal");
-        return changed; 
-    }
+function updateNoteTitle(note , idx=null) {
     const noteTitle = note.querySelector(".note-title");
     if (idx == null) {
-        idx = from.findIndex(el => el.id == note.id);
+        idx = notesList.findIndex(el => el.id == note.id);
     }
-    const noteData = from[idx]; 
+    const noteData = notesList[idx]; 
     temp = idx;
     const changed = (noteData.title !== noteTitle.value);
     if (changed) {
@@ -263,22 +241,12 @@ function updateNoteTitle(note , idx=null, from="both") {
     return changed;
 }
 
-function updateNoteBody(note, idx=null, from="both") {
-    if (from === "notesList") {
-        notesList = JSON.parse(localStorage.notes);
-        from = notesList;
-    } else if (from === "notesListLocal") {
-        from = notesListLocal;
-    } else if (from === "both") {
-        updateNoteBody(note, null, "notesList");
-        updateNoteBody(note, null, "notesListLocal");
-        return; 
-    }
+function updateNoteBody(note, idx=null) {
     const noteBody = note.querySelector(".note-body");
     if (idx == null) {
-        idx = from.findIndex(el => el.id == note.id);
+        idx = notesList.findIndex(el => el.id == note.id);
     }
-    const noteData = from[idx]; 
+    const noteData = notesList[idx]; 
     const changed = noteData.body !== noteBody.value;
     if (changed) {
         noteData.body = noteBody.value;
@@ -287,57 +255,17 @@ function updateNoteBody(note, idx=null, from="both") {
 }
 
 
-function deleteNote(note, idx=null, idxLocal) {
-    notesList = JSON.parse(localStorage.notes);    
+function deleteNote(note, idx=null) {
+    notesList = JSON.parse(localStorage.notes);
     if (currentSelected === note) {
         unSelectNote(save=false);
     }
     note.remove();
-
-    if (idx == null) 
+    if (idx == null) {
         idx = notesList.findIndex(el => el.id == note.id);
-    
-    if (idxLocal == null)
-        idx = notesListLocal.findIndex(el => el.id == note.id);
-
-    notesList.splice(idx, 1);
-    notesListLocal.splice(idxLocal, 1);
-    saveNotesState();
-}
-
-function synchronize() {
-    console.log("synchronizing");
-    let i = 0, j = 0;
-    while (i < notesList.length && j < notesListLocal.length) {
-        noteReal = notesList[i];
-        noteLocal = notesListLocal[j];
-        if (noteReal.id === noteLocal.id) {
-            let equal = true;
-            for (const key in noteReal) {
-                if (noteReal[key] != noteLocal) {
-                    equal = false;
-                } 
-            }
-            if (!equal) {
-                fillNote(noteReal.id, noteReal);
-            }
-            i++;
-            j++;
-        }
-        if (noteReal.id < noteLocal.id) {
-            const noteAfter = document.getElementById(`note-${noteLocal.id}`);
-            const noteBefore = noteAfter.cloneNode(true);
-            fillNote(noteBefore, noteReal);
-            i++;
-        }
-        if (noteReal.id > noteLocal.id) {
-            const noteBefore = document.getElementById(`note-${noteLocal.id}`);
-            noteBefore.remove();
-            j++;
-        }
-        i++;
-        j++;
     }
+    notesList.splice(idx, 1);
+    saveNotesState();
 }
 
 function saveNotesState() {
@@ -345,6 +273,30 @@ function saveNotesState() {
     console.log("saving state in local storage");
 }
 
+function updateNotesInDom() {
+    const missing = [];
+    const leftover = []; 
+    const changed = [];
+
+    for (let noteData of notesList) {
+
+    }
+    addMissingNotes();
+    removeLeftoverNotes();
+    updateNotesContent();
+}
+
+function addMissingNotes() {
+    
+}
+
+function removeLeftoverNotes() {
+
+}
+
+function updateNotesContent() {
+
+}
 
 function resizeTextarea(text) {
     text.style.height = "";
@@ -359,4 +311,8 @@ function getURLQuery() {
     return new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
     });
+}
+
+function compareWithDOM(note, noteData) {
+    
 }

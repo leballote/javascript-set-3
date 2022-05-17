@@ -31,18 +31,14 @@ h1 {
   overscroll-behavior: none;
 }
 
-.note-title {
-  font-size: 2rem;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 .note {
   border: 2px solid black;
   margin: 1em;
-  padding: 0.2em 1em;
+  /* padding: 0.2em 1em; */
   border-radius: 10px;
   background-color: rgb(255, 246, 253);
 }
+
 
 .note.selected {
   position: fixed;
@@ -54,6 +50,26 @@ h1 {
   overflow: scroll;
   overscroll-behavior: none;
 }
+
+.note-title,
+.note-body {
+  resize: none;
+  width: 100%;
+  padding: .6em;
+  overflow: hidden;
+  cursor: auto;
+}
+
+.note-title {
+  font-size: 2rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.note-body {
+  font-size: 1.1rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 
 #black-back {
   display: none;
