@@ -1,29 +1,24 @@
-if (localStorage.notes == null) {
-  localStorage.notes = JSON.stringify([]);
-  localStorage.lastId = 0;
-}
-notesList = JSON.parse(localStorage.notes);
-notesListLocal = JSON.parse(localStorage.notes);
-lastId = parseInt(localStorage.lastId);
-
+//global variables
 const notes = document.getElementById("notes");
 const noteTemplate = document.getElementById("note-template");
 const blackBack = document.getElementById("black-back");
 const newNoteBtn = document.getElementById("new-note-btn");
+
+//state variables
+if (localStorage.notes == null) {
+  localStorage.notes = JSON.stringify([]);
+  localStorage.lastId = 0;
+}
+let notesList = JSON.parse(localStorage.notes);
+let notesListLocal = [...notesList];
+let lastId = parseInt(localStorage.lastId);
+let currentSelected = null;
 
 const resizeObserverTextarea = new ResizeObserver((entries) => {
   entries.forEach((el) => {
     resizeTextarea(el.target);
   });
 });
-
-let urlQuery = getURLQuery();
-
-let currentSelected = null;
-
-renderNotes();
-
-selectNote(urlQuery.noteId);
 
 window.addEventListener("popstate", () => {
   const noteId = getURLQuery().noteId;
@@ -69,6 +64,15 @@ blackBack.addEventListener("click", (evt) => {
 newNoteBtn.addEventListener("click", (evt) => {
   newNote();
 });
+
+// program stsart
+(function start() {
+  let urlQuery = getURLQuery();
+
+  renderNotes();
+
+  selectNote(urlQuery.noteId);
+})();
 
 function renderNotes() {
   const notesElements = [];
