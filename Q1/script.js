@@ -1,3 +1,5 @@
+//program starts at function start
+
 //global variables
 const notes = document.getElementById("notes");
 const noteTemplate = document.getElementById("note-template");
@@ -58,14 +60,14 @@ notes.addEventListener("keydown", function (evt) {
 });
 
 blackBack.addEventListener("click", (evt) => {
-  unSelectNote();
+  unselectNote();
 });
 
 newNoteBtn.addEventListener("click", (evt) => {
   newNote();
 });
 
-// program stsart
+// program start
 (function start() {
   let urlQuery = getURLQuery();
 
@@ -93,21 +95,21 @@ function selectNote(note) {
     note = document.querySelector(`.note#${note}`);
   }
   if (note == null) {
-    unSelectNote();
+    unselectNote();
     return;
   }
   if (note != currentSelected) {
     note.classList.add("selected");
     note.querySelector(".note-title").readOnly = false;
     note.querySelector(".note-body").readOnly = false;
-    unSelectNote();
+    unselectNote();
     currentSelected = note;
     blackBack.style.setProperty("display", "block");
     history.pushState(null, null, `?noteId=${note.id}`);
   }
 }
 
-function unSelectNote(save = true) {
+function unselectNote(save = true) {
   if (currentSelected) {
     currentSelected.classList.remove("selected");
     currentSelected.querySelector(".note-title").readOnly = true;
@@ -200,7 +202,7 @@ function updateNoteBody(note, idx = null) {
 function deleteNote(note, idx = null) {
   notesList = JSON.parse(localStorage.notes);
   if (currentSelected === note) {
-    unSelectNote((save = false));
+    unselectNote((save = false));
   }
   note.remove();
   if (idx == null) {

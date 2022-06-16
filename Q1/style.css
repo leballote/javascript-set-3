@@ -1,4 +1,9 @@
 :root {
+  --primary-color: rgb(252, 214, 244);
+  --primary-soft: rgb(255, 246, 253);
+  --primary-strong:rgb(226, 153, 210);
+  --primary-stronger:rgba(131, 93, 123); 
+  --secondary-color: gray;
   box-sizing: border-box;
   font-size: 1.2em;
   font-family: 'Comfortaa', Arial, Helvetica, sans-serif;
@@ -11,7 +16,7 @@
 }
 
 body {
-  background-color: rgb(252, 214, 244);
+  background-color: var(--primary-color);
 }
 
 h1 {
@@ -33,13 +38,10 @@ h1 {
 }
 
 .note {
-  /* display: flex;
-  flex-flow: wrap row; */
-  border: 1px solid gray;
+  border: 1px solid var(--secondary-color);
   margin: 1em;
-  /* padding: 0.2em 1em; */
   border-radius: 10px;
-  background-color: rgb(255, 246, 253);
+  background-color: var(--primary-soft);
 }
 
 
@@ -62,19 +64,17 @@ h1 {
   overflow: hidden;
   cursor: auto;
   border: none;
-  /* border: solid rgb(84, 64, 80) 1px; */
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .note-title {
   font-size: 2rem;
-  font-family: Arial, Helvetica, sans-serif;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
 }
 
 .note-body {
   font-size: 1.1rem;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 .note-footer {
@@ -103,7 +103,7 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: solid gray 2px;
+  border: solid var(--secondary-color) 2px;
   cursor: pointer;
   background-color: transparent;
 }
@@ -122,17 +122,16 @@ button.large {
 
 button.medium {
   font-size: 2rem;
-  color: gray;
+  color: var(--secondary-color);
 }
 
 #new-note-btn {
   display: block;
   width: 98%;
   margin: auto;
-  background-color: rgb(226, 153, 210);
+  background-color: var(--primary-strong);
 }
 
 #new-note-btn:hover {
-  background-color: rgb(226, 153, 210);
-  background-color: rgb(131, 93, 123);
+  background-color: var(--primary-stronger);
 }
