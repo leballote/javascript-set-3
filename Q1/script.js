@@ -77,17 +77,14 @@ newNoteBtn.addEventListener("click", (evt) => {
 })();
 
 function renderNotes() {
-  const notesElements = [];
+  const notesFragment = new DocumentFragment();
   for (let noteData of notesList) {
     const note = noteTemplate.content.cloneNode(true).querySelector(".note");
-    notesElements.push(note);
     fillNote(note, noteData);
+    notesFragment.appendChild(note);
   }
 
-  //I know I could have use a note fragment but not sure if here is the best thing to do, because then it will render all the notes together, which may be more performant, but be seen more slow to the user if he doesn't see anythin render in a while.
-  for (let note of notesElements) {
-    notes.appendChild(note);
-  }
+  notes.replaceChildren(notesFragment);
 }
 
 function selectNote(note) {
